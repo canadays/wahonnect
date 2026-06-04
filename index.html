@@ -1,470 +1,872 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WAHONNECT | 海外に挑戦する社会人のコミュニティ</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@600&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            primary: '#1E293B', // Slate 800 (深いネイビー)
-                            secondary: '#4F46E5', // Indigo 600
-                            accent: '#0EA5E9',  // Sky 500
-                            line: '#06C755',    // LINEグリーン
-                            light: '#F8FAFC',
-                            dark: '#0F172A'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['"Noto Sans JP"', 'sans-serif'],
-                        en: ['"Inter"', 'sans-serif'],
-                        serif: ['"Noto Serif JP"', 'serif'],
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            color: #334155;
-            background-color: #F8FAFC;
-        }
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .pb-cta {
-            padding-bottom: 90px;
-        }
-        /* スタイリッシュなグラデーションテキスト */
-        .text-gradient {
-            background: linear-gradient(135deg, #4F46E5 0%, #0EA5E9 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WAHONNECT | 海外留学・ワーホリ経験者と挑戦者をつなぐ</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0B0F1A;
+    --navy-mid: #131929;
+    --slate: #1E2A40;
+    --indigo: #3A4FE0;
+    --indigo-light: #5A70FF;
+    --gold: #F5C842;
+    --gold-muted: #C9A32A;
+    --cream: #F7F3EC;
+    --cream-dark: #EDE7DC;
+    --text-main: #0B0F1A;
+    --text-muted: #6B7280;
+    --white: #FFFFFF;
+    --radius: 20px;
+    --radius-lg: 28px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--cream);
+    color: var(--text-main);
+    overflow-x: hidden;
+  }
+
+  .en { font-family: 'Syne', sans-serif; }
+
+  /* ── HEADER ── */
+  header {
+    position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+    background: rgba(247,243,236,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    padding: 0 20px;
+    height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px; letter-spacing: 0.12em; color: var(--navy); }
+  .logo span { color: var(--indigo); }
+  .header-cta {
+    background: var(--navy); color: #fff;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+    padding: 8px 18px; border-radius: 100px; text-decoration: none;
+    border: none; cursor: pointer;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100svh;
+    background: var(--navy);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    position: relative; overflow: hidden;
+    padding-top: 56px;
+  }
+
+  .hero-bg-text {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(80px, 25vw, 200px);
+    color: rgba(255,255,255,0.03);
+    white-space: nowrap;
+    pointer-events: none;
+    letter-spacing: -0.04em;
+    user-select: none;
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .hero-accent {
+    position: absolute; top: 30%; right: -40px;
+    width: 220px; height: 220px;
+    background: var(--indigo);
+    border-radius: 50%;
+    opacity: 0.15;
+    filter: blur(40px);
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    padding: 32px 20px 40px;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 100px;
+    padding: 6px 14px;
+    margin-bottom: 24px;
+  }
+  .hero-badge-dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; }
+  .hero-badge span { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.7); letter-spacing: 0.12em; text-transform: uppercase; }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(38px, 10vw, 56px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--gold);
+  }
+
+  .hero-sub {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.8;
+    margin-bottom: 32px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── TWO-PATH CARDS ── */
+  .path-cards {
+    display: flex; flex-direction: column; gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .path-card {
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    display: flex; align-items: center; gap: 16px;
+    text-decoration: none;
+  }
+
+  .path-card.experienced {
+    background: var(--gold);
+    color: var(--navy);
+  }
+
+  .path-card.challenger {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #fff;
+  }
+
+  .path-card-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .path-card.experienced .path-card-icon {
+    background: rgba(0,0,0,0.1);
+  }
+
+  .path-card.challenger .path-card-icon {
+    background: rgba(255,255,255,0.08);
+  }
+
+  .path-card-text strong {
+    display: block;
+    font-size: 15px; font-weight: 700;
+    letter-spacing: 0.02em;
+    margin-bottom: 2px;
+  }
+
+  .path-card-text small {
+    font-size: 12px; opacity: 0.7; font-weight: 500;
+  }
+
+  .path-arrow {
+    margin-left: auto;
+    font-size: 20px;
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    background: var(--cream-dark);
+    border-top: 1px solid rgba(0,0,0,0.06);
+  }
+
+  .stats-inner {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 20px;
+    gap: 0;
+  }
+
+  .stats-inner::-webkit-scrollbar { display: none; }
+
+  .stat-item {
+    flex: 0 0 auto;
+    text-align: center;
+    padding: 0 24px;
+    border-right: 1px solid rgba(0,0,0,0.08);
+  }
+
+  .stat-item:last-child { border-right: none; }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 28px;
+    color: var(--navy);
+    letter-spacing: -0.04em;
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* ── SECTION BASE ── */
+  section { padding: 60px 20px; }
+
+  .section-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--indigo);
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .section-title {
+    font-weight: 900;
+    font-size: clamp(26px, 7vw, 36px);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+
+  .section-sub {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 500;
+    line-height: 1.8;
+  }
+
+  /* ── FOR EXPERIENCED ── */
+  .for-exp { background: var(--navy); color: #fff; }
+
+  .for-exp .section-label { color: var(--gold); }
+  .for-exp .section-title { color: #fff; }
+  .for-exp .section-sub { color: rgba(255,255,255,0.5); }
+
+  .benefit-list {
+    margin-top: 32px;
+    display: flex; flex-direction: column; gap: 16px;
+  }
+
+  .benefit-item {
+    display: flex; align-items: flex-start; gap: 16px;
+    padding: 20px;
+    border-radius: var(--radius);
+  }
+
+  .for-exp .benefit-item {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .benefit-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 13px;
+    letter-spacing: 0.08em;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .for-exp .benefit-num { color: var(--gold); }
+
+  .benefit-body strong {
+    display: block; font-size: 15px; font-weight: 700;
+    line-height: 1.4; margin-bottom: 6px;
+  }
+
+  .benefit-body p {
+    font-size: 13px; line-height: 1.7;
+    font-weight: 400;
+  }
+
+  .for-exp .benefit-body p { color: rgba(255,255,255,0.55); }
+  .for-exp .benefit-body strong { color: #fff; }
+
+  /* ── FOR CHALLENGERS ── */
+  .for-chal { background: var(--cream); }
+  .for-chal .benefit-item {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+  .for-chal .benefit-num { color: var(--indigo); }
+  .for-chal .benefit-body strong { color: var(--navy); }
+  .for-chal .benefit-body p { color: var(--text-muted); }
+
+  /* ── BRIDGE SECTION ── */
+  .bridge {
+    background: var(--indigo);
+    color: #fff;
+    text-align: center;
+  }
+  .bridge .section-title { color: #fff; }
+  .bridge .section-sub { color: rgba(255,255,255,0.7); }
+
+  .bridge-arrow {
+    display: flex; align-items: center; justify-content: center;
+    gap: 12px;
+    margin: 32px 0;
+  }
+
+  .bridge-side {
+    flex: 1;
+    padding: 16px 12px;
+    border-radius: var(--radius);
+    font-size: 13px; font-weight: 700;
+  }
+
+  .bridge-side.left {
+    background: rgba(255,255,255,0.12);
+    color: var(--gold);
+    letter-spacing: 0.04em;
+  }
+
+  .bridge-side.right {
+    background: rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.9);
+    letter-spacing: 0.04em;
+  }
+
+  .bridge-connect {
+    font-size: 24px;
+    opacity: 0.5;
+  }
+
+  /* ── EVENTS ── */
+  .events { background: var(--cream-dark); }
+
+  .event-cards {
+    margin-top: 32px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+
+  .event-card {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: var(--radius);
+    padding: 20px;
+    display: flex; align-items: center; gap: 16px;
+  }
+
+  .event-icon {
+    width: 48px; height: 48px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .event-icon.blue { background: #EEF2FF; }
+  .event-icon.green { background: #ECFDF5; }
+  .event-icon.amber { background: #FFFBEB; }
+  .event-icon.pink { background: #FDF2F8; }
+
+  .event-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; color: var(--navy); }
+  .event-desc { font-size: 12px; color: var(--text-muted); font-weight: 400; line-height: 1.6; }
+
+  /* ── FAQ ── */
+  .faq { background: var(--cream); }
+
+  .faq-list { margin-top: 32px; display: flex; flex-direction: column; gap: 2px; }
+
+  .faq-item {
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    padding: 18px 0;
+  }
+
+  .faq-q {
+    font-size: 14px; font-weight: 700; color: var(--navy);
+    display: flex; align-items: flex-start; gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .faq-q-badge {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px; font-weight: 800;
+    color: var(--indigo);
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .faq-a {
+    font-size: 13px; color: var(--text-muted);
+    font-weight: 400; line-height: 1.8;
+    padding-left: 28px;
+  }
+
+  /* ── CTA ── */
+  .cta-section {
+    background: var(--navy);
+    text-align: center;
+    padding: 64px 20px 100px;
+  }
+
+  .cta-section .section-title { color: #fff; font-size: 32px; }
+
+  .cta-section .section-sub {
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 40px;
+    margin-top: 12px;
+  }
+
+  .cta-btn-line {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    background: #06C755;
+    color: #fff;
+    font-size: 16px; font-weight: 700;
+    padding: 18px 32px;
+    border-radius: 100px;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: transform 0.15s ease;
+    box-shadow: 0 8px 32px rgba(6,199,85,0.3);
+    max-width: 360px;
+    margin: 0 auto;
+  }
+
+  .cta-btn-line:active { transform: scale(0.97); }
+
+  .cta-note {
+    margin-top: 16px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.08em;
+  }
+
+  /* ── FOUNDER ── */
+  .founder {
+    background: var(--cream-dark);
+  }
+
+  .founder-card {
+    background: var(--navy);
+    border-radius: var(--radius-lg);
+    padding: 32px 24px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .founder-card::before {
+    content: '"';
+    position: absolute;
+    top: -10px; left: 16px;
+    font-family: 'Syne', sans-serif;
+    font-size: 120px;
+    font-weight: 800;
+    color: rgba(255,255,255,0.04);
+    line-height: 1;
+  }
+
+  .founder-quote {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.7;
+    letter-spacing: -0.01em;
+    color: #fff;
+    margin-bottom: 24px;
+    position: relative; z-index: 1;
+  }
+
+  .founder-body {
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.9;
+    margin-bottom: 24px;
+    position: relative; z-index: 1;
+  }
+
+  .founder-sig {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    position: relative; z-index: 1;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #070A12;
+    text-align: center;
+    padding: 40px 20px 80px;
+  }
+
+  footer .logo { display: block; margin-bottom: 16px; font-size: 20px; }
+
+  .footer-ig {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 600;
+    color: rgba(255,255,255,0.35);
+    text-decoration: none; letter-spacing: 0.08em;
+    margin-bottom: 24px;
+  }
+
+  .footer-copy {
+    font-size: 10px; color: rgba(255,255,255,0.15);
+    letter-spacing: 0.12em; text-transform: uppercase;
+  }
+
+  /* ── STICKY CTA (mobile) ── */
+  .sticky-cta {
+    position: fixed; bottom: 0; left: 0; width: 100%; z-index: 99;
+    background: linear-gradient(to top, var(--cream) 60%, transparent);
+    padding: 12px 16px 16px;
+  }
+
+  .sticky-cta a {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    background: #06C755;
+    color: #fff;
+    font-size: 15px; font-weight: 700;
+    padding: 16px;
+    border-radius: 100px;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    box-shadow: 0 4px 24px rgba(6,199,85,0.35);
+  }
+
+  /* ── ANIMATIONS ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  @media (min-width: 640px) {
+    .sticky-cta { display: none; }
+    body { padding-bottom: 0; }
+    .path-cards { flex-direction: row; }
+    .path-card { flex: 1; }
+  }
+</style>
 </head>
-<body class="antialiased pb-cta font-sans selection:bg-brand-accent selection:text-white">
+<body>
 
-    <!-- Header -->
-    <header class="fixed top-0 w-full bg-white/90 backdrop-blur-md z-50 border-b border-slate-200 shadow-sm transition-all duration-300">
-        <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
-            <div class="font-en font-extrabold text-xl tracking-widest text-brand-primary">
-                WAHONNECT<span class="text-brand-accent">.</span>
-            </div>
-            <div class="flex items-center gap-4">
-                <!-- Instagram Icon -->
-                <a href="https://www.instagram.com/waho_nnect/" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-pink-500 transition-colors">
-                    <svg viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                </a>
-                <a href="#cta" class="bg-brand-primary text-white text-[11px] md:text-xs font-bold px-5 py-2 rounded-full shadow-sm hover:bg-slate-700 transition tracking-wider">
-                    参加する
-                </a>
-            </div>
-        </div>
-    </header>
+<header>
+  <div class="logo en">WAHONNECT<span>.</span></div>
+  <a href="https://lin.ee/NoG21ay" target="_blank" class="header-cta">参加する</a>
+</header>
 
-    <main>
-        <!-- 1️⃣ ヒーローセクション -->
-        <section class="relative w-full min-h-[90vh] flex items-center bg-white overflow-hidden pt-16">
-            <!-- 幾何学的な背景装飾 -->
-            <div class="absolute inset-0 z-0">
-                <div class="absolute -top-40 -right-40 w-96 h-96 bg-indigo-50 rounded-full blur-3xl opacity-70"></div>
-                <div class="absolute top-1/2 -left-20 w-72 h-72 bg-sky-50 rounded-full blur-3xl opacity-70"></div>
-                <!-- グリッドパターン -->
-                <div class="absolute inset-0" style="background-image: radial-gradient(#E2E8F0 1px, transparent 1px); background-size: 32px 32px; opacity: 0.4;"></div>
-            </div>
-
-            <div class="max-w-6xl mx-auto px-5 py-12 flex flex-col-reverse md:flex-row items-center gap-12 z-10 w-full">
-                <!-- 左：テキスト -->
-                <div class="flex-1 w-full text-center md:text-left">
-                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-100 border border-slate-200 mb-6">
-                        <span class="w-2 h-2 rounded-full bg-brand-secondary animate-pulse"></span>
-                        <span class="text-[10px] md:text-xs font-bold text-slate-600 tracking-widest uppercase">Professional Community</span>
-                    </div>
-                    
-                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-black leading-tight mb-6 tracking-tighter text-slate-900 font-sans">
-                        <span class="block mb-2 text-2xl md:text-4xl font-sans font-black text-slate-500 tracking-wider">次の人生を</span>
-                        <span class="text-gradient">世界で。</span>
-                    </h1>
-                    
-                    <p class="text-sm md:text-base font-bold mb-8 leading-loose text-slate-500 tracking-widest">
-                        海外に挑戦する社会人のコミュニティ<br>
-                        <span class="text-slate-700 font-black tracking-tight">ワーホリ</span><span class="mx-3 font-normal text-slate-300">/</span><span class="text-slate-700 font-black tracking-tight">社会人留学</span><span class="mx-3 font-normal text-slate-300">/</span><span class="text-slate-700 font-black tracking-tight">海外生活</span>
-                    </p>
-
-                    <div class="flex flex-col gap-3 mb-10 w-full max-w-sm mx-auto md:mx-0 text-left bg-white/60 backdrop-blur-md p-5 rounded-2xl border border-slate-200/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-                        <div class="flex items-center gap-3">
-                            <span class="text-xl">🌏</span>
-                            <span class="font-bold text-sm tracking-tight text-slate-700">海外挑戦の情報交換</span>
-                        </div>
-                        <div class="w-full h-px bg-slate-100"></div>
-                        <div class="flex items-center gap-3">
-                            <span class="text-xl">🤝</span>
-                            <span class="font-bold text-sm tracking-tight text-slate-700">同じ挑戦をする仲間</span>
-                        </div>
-                        <div class="w-full h-px bg-slate-100"></div>
-                        <div class="flex items-center gap-3">
-                            <span class="text-xl">📍</span>
-                            <span class="font-bold text-sm tracking-tight text-slate-700">東京・大阪・オンラインの交流イベント</span>
-                        </div>
-                    </div>
-
-                    <a href="https://lin.ee/NoG21ay" target="_blank" rel="noopener noreferrer" class="inline-flex w-full md:w-auto bg-brand-primary text-white font-bold text-base md:text-lg py-4 px-10 rounded-full shadow-xl shadow-slate-900/20 hover:bg-slate-800 transition transform hover:-translate-y-1 items-center justify-center gap-2">
-                        コミュニティに参加する
-                        <svg viewBox="0 0 24 24" class="w-5 h-5 ml-1" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                    </a>
-                </div>
-                
-                <!-- 右：画像 -->
-                <div class="flex-1 w-full fade-in">
-                    <div class="relative w-full aspect-[4/5] md:aspect-square max-w-lg mx-auto">
-                        <div class="absolute inset-0 bg-gradient-to-tr from-brand-secondary to-brand-accent rounded-[2rem] md:rounded-[3rem] transform rotate-3 scale-105 opacity-20"></div>
-                        <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="ノートPCとコーヒーが置かれたデスク" class="absolute inset-0 w-full h-full object-cover rounded-[2rem] md:rounded-[3rem] shadow-2xl border border-white/50">
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 3️⃣ Social Proof（人数） -->
-        <section class="bg-brand-primary text-white py-12 relative z-20">
-            <div class="max-w-6xl mx-auto px-5">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 divide-y md:divide-y-0 md:divide-x divide-slate-700/50">
-                    <div class="flex flex-col items-center text-center pt-4 md:pt-0">
-                        <span class="text-slate-400 text-sm font-bold tracking-widest mb-2 uppercase flex items-center gap-2"><span class="text-lg">👥</span>メンバー</span>
-                        <div class="text-4xl md:text-5xl font-en font-black text-white">120<span class="text-brand-accent">+</span></div>
-                    </div>
-                    <div class="flex flex-col items-center text-center pt-8 md:pt-0">
-                        <span class="text-slate-400 text-sm font-bold tracking-widest mb-2 uppercase flex items-center gap-2"><span class="text-lg">🌏</span>交流イベント</span>
-                        <div class="text-3xl md:text-4xl font-black text-white mt-1">月2〜4<span class="text-xl font-normal text-slate-400 ml-1">回開催</span></div>
-                    </div>
-                    <div class="flex flex-col items-center text-center pt-8 md:pt-0">
-                        <span class="text-slate-400 text-sm font-bold tracking-widest mb-2 uppercase flex items-center gap-2"><span class="text-lg">📍</span>開催エリア</span>
-                        <div class="text-xl md:text-2xl font-black text-white mt-1 tracking-widest">東京・大阪 <span class="text-base font-normal text-slate-400">/ オンライン</span></div>
-                    </div>
-                </div>
-                <p class="text-center text-slate-300 mt-10 text-sm font-medium tracking-wide">海外に挑戦する社会人が、少しずつ集まっています。</p>
-            </div>
-        </section>
-
-        <!-- 2️⃣ 共感（社会人の悩み） -->
-        <section class="w-full px-5 py-20 md:py-32 fade-in bg-slate-50">
-            <div class="max-w-4xl mx-auto">
-                <h2 class="text-2xl md:text-4xl font-black mb-12 tracking-tighter text-center text-slate-800">こんなこと考えたこと<br class="md:hidden">ありませんか？</h2>
-                
-                <div class="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-slate-200">
-                    <ul class="space-y-6 mb-10">
-                        <li class="flex items-center gap-4">
-                            <div class="w-6 h-6 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center flex-shrink-0"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>
-                            <span class="font-bold text-lg text-slate-700 tracking-tight">会社を辞めて海外に行ってみたい</span>
-                        </li>
-                        <li class="flex items-center gap-4">
-                            <div class="w-6 h-6 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center flex-shrink-0"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>
-                            <span class="font-bold text-lg text-slate-700 tracking-tight">ワーホリや留学に興味がある</span>
-                        </li>
-                        <li class="flex items-center gap-4">
-                            <div class="w-6 h-6 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center flex-shrink-0"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>
-                            <span class="font-bold text-lg text-slate-700 tracking-tight">でも一歩踏み出すのは少し不安</span>
-                        </li>
-                        <li class="flex items-center gap-4">
-                            <div class="w-6 h-6 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center flex-shrink-0"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>
-                            <span class="font-bold text-lg text-slate-700 tracking-tight">同じ挑戦をする仲間が欲しい</span>
-                        </li>
-                        <li class="flex items-center gap-4">
-                            <div class="w-6 h-6 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center flex-shrink-0"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>
-                            <span class="font-bold text-lg text-slate-700 tracking-tight">リアルな海外情報を知りたい</span>
-                        </li>
-                    </ul>
-                    <div class="p-6 bg-slate-800 rounded-2xl text-center relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-32 h-32 bg-brand-secondary rounded-full blur-3xl opacity-20 transform translate-x-10 -translate-y-10"></div>
-                        <p class="text-white font-medium leading-loose relative z-10">
-                            海外に挑戦したいと思っても<br>
-                            周りに同じ考えの人がいない。<br>
-                            <span class="block mt-4 text-xl font-black tracking-tight">そんな社会人のために<br class="md:hidden"><span class="text-brand-accent font-en ml-1">WAHONNECT</span> は生まれました。</span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 4️⃣ コミュニティ説明 -->
-        <section class="w-full px-5 py-20 md:py-32 bg-white fade-in">
-            <div class="max-w-4xl mx-auto text-center">
-                <h2 class="text-xs font-bold tracking-[0.3em] text-slate-400 mb-2 uppercase font-en">About Us</h2>
-                <h3 class="text-3xl md:text-4xl font-black mb-10 md:mb-12 tracking-tighter text-slate-800 font-en">WAHONNECT<span class="font-sans">とは</span></h3>
-                
-                <p class="text-lg md:text-xl leading-loose font-bold text-slate-700 mb-8">
-                    海外に挑戦したい社会人のための<br class="md:hidden">コミュニティです。
-                </p>
-                <p class="text-base md:text-lg leading-loose font-medium text-slate-600 mb-10">
-                    ワーキングホリデー / 社会人留学 / 海外生活 など<br>
-                    海外に興味のある社会人が集まり、<br>
-                    <span class="inline-block bg-indigo-50 text-brand-secondary px-3 py-1 rounded-md mt-4 mx-1">情報交換</span>
-                    <span class="inline-block bg-indigo-50 text-brand-secondary px-3 py-1 rounded-md mt-4 mx-1">交流</span>
-                    <span class="inline-block bg-indigo-50 text-brand-secondary px-3 py-1 rounded-md mt-4 mx-1">海外経験のシェア</span><br>
-                    をしています。
-                </p>
-                
-                <p class="text-2xl md:text-3xl font-black mt-12 text-slate-800 tracking-tight font-serif">
-                    一人で海外に挑戦するより<br>
-                    <span class="text-brand-secondary">仲間と一緒に。</span>
-                </p>
-            </div>
-        </section>
-
-        <!-- 5️⃣ できること -->
-        <section class="w-full px-5 py-20 md:py-24 bg-slate-50 fade-in">
-            <div class="max-w-5xl mx-auto">
-                <h2 class="text-xs font-bold tracking-[0.3em] text-slate-400 mb-2 uppercase text-center font-en">Features</h2>
-                <h3 class="text-3xl md:text-4xl font-black mb-12 tracking-tighter text-center text-slate-800 font-en">WAHONNECT<span class="font-sans">でできること</span></h3>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-6 hover:shadow-md transition-shadow">
-                        <div class="text-4xl bg-indigo-50 w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0">🌏</div>
-                        <div>
-                            <h4 class="font-bold text-lg mb-2 text-slate-800 tracking-tight">ワーホリ・留学情報交換</h4>
-                            <p class="text-sm text-slate-500 leading-relaxed">社会人ならではの視点で、ビザや現地のリアルな情報をシェアします。</p>
-                        </div>
-                    </div>
-                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-6 hover:shadow-md transition-shadow">
-                        <div class="text-4xl bg-sky-50 w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0">✈️</div>
-                        <div>
-                            <h4 class="font-bold text-lg mb-2 text-slate-800 tracking-tight">海外生活のリアルを知れる</h4>
-                            <p class="text-sm text-slate-500 leading-relaxed">ネットにはない、現地での仕事事情や生活のリアルな裏話が聞けます。</p>
-                        </div>
-                    </div>
-                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-6 hover:shadow-md transition-shadow">
-                        <div class="text-4xl bg-indigo-50 w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0">🤝</div>
-                        <div>
-                            <h4 class="font-bold text-lg mb-2 text-slate-800 tracking-tight">海外志向の社会人と出会える</h4>
-                            <p class="text-sm text-slate-500 leading-relaxed">大人になってから同じ目標を持つ、質の高い繋がりが生まれます。</p>
-                        </div>
-                    </div>
-                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-6 hover:shadow-md transition-shadow">
-                        <div class="text-4xl bg-sky-50 w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0">🗣</div>
-                        <div>
-                            <h4 class="font-bold text-lg mb-2 text-slate-800 tracking-tight">海外経験者の体験談</h4>
-                            <p class="text-sm text-slate-500 leading-relaxed">帰国後のキャリアや、行って良かったこと・後悔したことを直接聞けます。</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="mt-8 bg-white py-5 px-6 rounded-2xl border border-slate-200 text-center flex items-center justify-center gap-3 max-w-2xl mx-auto shadow-sm">
-                    <span class="text-2xl">📍</span>
-                    <span class="font-bold text-slate-800 tracking-tight">海外挑戦交流イベント（東京・大阪・オンライン開催）</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- 6️⃣ イベント -->
-        <section class="w-full px-5 py-20 md:py-32 bg-white fade-in border-t border-slate-100">
-            <div class="max-w-4xl mx-auto">
-                <h2 class="text-xs font-bold tracking-[0.3em] text-slate-400 mb-2 uppercase text-center font-en">Events</h2>
-                <h3 class="text-3xl md:text-4xl font-black mb-10 tracking-tighter text-center text-slate-800">交流イベント</h3>
-                
-                <p class="text-center font-medium mb-12 text-slate-600 md:text-lg">
-                    <span class="font-en mr-1">WAHONNECT</span>では<br class="md:hidden">
-                    定期的に交流イベントを開催しています。
-                </p>
-
-                <div class="bg-slate-50 rounded-3xl p-8 md:p-12 border border-slate-200">
-                    <div class="flex flex-col md:flex-row gap-10">
-                        <div class="flex-1">
-                            <h4 class="font-bold text-slate-800 text-lg mb-6 flex items-center gap-2"><span class="w-2 h-6 bg-brand-secondary rounded-full"></span>イベント例</h4>
-                            <ul class="space-y-4 font-medium text-slate-700">
-                                <li class="flex items-center gap-3"><svg class="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>海外挑戦社会人交流会</li>
-                                <li class="flex items-center gap-3"><svg class="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>ワーホリ経験者トーク</li>
-                                <li class="flex items-center gap-3"><svg class="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>留学体験談シェア</li>
-                                <li class="flex items-center gap-3"><svg class="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>海外志向オンライン作業会・相談会</li>
-                            </ul>
-                        </div>
-                        <div class="flex-1 flex flex-col justify-center">
-                            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-                                <div class="flex items-center gap-2 font-bold text-slate-800 mb-4 pb-4 border-b border-slate-100 text-lg">
-                                    <span class="text-2xl">📍</span> 東京・大阪中心 ＆ オンライン
-                                </div>
-                                <ul class="space-y-2 text-sm text-slate-500 font-medium">
-                                    <li class="flex items-start gap-1"><span class="text-slate-300">※</span>イベントは任意参加です</li>
-                                    <li class="flex items-start gap-1"><span class="text-slate-300">※</span>内容によって参加費がかかる場合があります</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 7️⃣ 創設者ストーリー -->
-        <section class="w-full px-5 py-24 bg-brand-primary text-white fade-in relative overflow-hidden">
-            <!-- 装飾 -->
-            <div class="absolute top-0 right-0 w-64 h-64 bg-brand-secondary rounded-full blur-3xl opacity-20"></div>
-            
-            <div class="max-w-3xl mx-auto text-center relative z-10">
-                <h2 class="text-xs font-bold tracking-[0.4em] text-slate-400 mb-8 uppercase font-en">Founder Story</h2>
-                
-                <h3 class="text-2xl md:text-3xl font-serif font-bold leading-relaxed mb-12">
-                    「海外に挑戦する人が<br>
-                    もっと繋がれる場所を作りたい。」
-                </h3>
-                
-                <div class="space-y-6 text-slate-300 text-sm md:text-base leading-loose font-medium max-w-xl mx-auto text-left md:text-center">
-                    <p>
-                        私自身、海外に挑戦したとき<br class="hidden md:block">
-                        同じ挑戦をする仲間が周りにいませんでした。
-                    </p>
-                    <p>
-                        ワーホリや留学は、人生を大きく変える経験です。<br>
-                        でも一人だと、不安も多い。
-                    </p>
-                    <p>
-                        だからこそ<br>
-                        同じ挑戦をする人が繋がれる場所を作りたい。<br>
-                        それが <strong class="text-white font-en tracking-wider">WAHONNECT</strong> です。
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 8️⃣ 写真 -->
-        <section class="w-full px-5 py-20 bg-slate-50 fade-in">
-            <div class="max-w-6xl mx-auto">
-                <h2 class="text-3xl md:text-4xl font-black mb-6 tracking-tighter text-center text-slate-800">リアルな交流を大切にしています。</h2>
-                <p class="text-center text-slate-600 mb-12 font-medium">東京でのオフライン交流会だけでなく、全国から参加できるオンラインイベントも定期開催。<br class="hidden md:block">どこにいても、海外志向の社会人同士の繋がりを作っています。</p>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-                    <div class="group overflow-hidden rounded-2xl shadow-sm aspect-square md:aspect-[4/5] relative">
-                        <img src="https://images.unsplash.com/photo-1544148103-0773bf10d330?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="カフェのテーブル" class="w-full h-full object-cover transition transform duration-700 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent flex items-end p-6">
-                            <span class="text-white font-bold tracking-widest text-sm">オフライン交流会</span>
-                        </div>
-                    </div>
-                    <div class="group overflow-hidden rounded-2xl shadow-sm aspect-square md:aspect-[4/5] relative md:-translate-y-6">
-                        <img src="https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="オンラインイベントの様子" class="w-full h-full object-cover transition transform duration-700 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent flex items-end p-6">
-                            <span class="text-white font-bold tracking-widest text-sm">オンラインイベント</span>
-                        </div>
-                    </div>
-                    <div class="group overflow-hidden rounded-2xl shadow-sm aspect-square md:aspect-[4/5] relative">
-                        <img src="https://images.unsplash.com/photo-1530521954074-e64f6810b32d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="空港の風景" class="w-full h-full object-cover transition transform duration-700 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent flex items-end p-6">
-                            <span class="text-white font-bold tracking-widest text-sm">日本から世界へ</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 9️⃣ FAQ -->
-        <section class="w-full px-5 py-20 md:py-32 bg-white fade-in">
-            <div class="max-w-3xl mx-auto">
-                <h2 class="text-xs font-bold tracking-[0.3em] text-slate-400 mb-2 uppercase text-center font-en">FAQ</h2>
-                <h3 class="text-3xl md:text-4xl font-black mb-12 tracking-tighter text-center text-slate-800">よくある質問</h3>
-                
-                <div class="space-y-6">
-                    <div class="border border-slate-200 rounded-2xl p-6 bg-slate-50">
-                        <h4 class="font-bold text-lg mb-2 flex items-start gap-3 text-slate-800">
-                            <span class="text-brand-secondary font-en font-black text-xl">Q.</span> 誰でも参加できますか？
-                        </h4>
-                        <p class="text-slate-600 pl-8 text-sm md:text-base font-medium">海外に興味のある社会人なら参加可能です。</p>
-                    </div>
-                    <div class="border border-slate-200 rounded-2xl p-6 bg-slate-50">
-                        <h4 class="font-bold text-lg mb-2 flex items-start gap-3 text-slate-800">
-                            <span class="text-brand-secondary font-en font-black text-xl">Q.</span> コミュニティ参加は無料ですか？
-                        </h4>
-                        <p class="text-slate-600 pl-8 text-sm md:text-base font-medium">はい。コミュニティ参加は無料です。</p>
-                    </div>
-                    <div class="border border-slate-200 rounded-2xl p-6 bg-slate-50">
-                        <h4 class="font-bold text-lg mb-2 flex items-start gap-3 text-slate-800">
-                            <span class="text-brand-secondary font-en font-black text-xl">Q.</span> イベントは必ず参加する必要がありますか？
-                        </h4>
-                        <p class="text-slate-600 pl-8 text-sm md:text-base font-medium">いいえ。任意参加です。</p>
-                    </div>
-                    <div class="border border-slate-200 rounded-2xl p-6 bg-slate-50">
-                        <h4 class="font-bold text-lg mb-2 flex items-start gap-3 text-slate-800">
-                            <span class="text-brand-secondary font-en font-black text-xl">Q.</span> ワーホリ予定がなくても参加できますか？
-                        </h4>
-                        <p class="text-slate-600 pl-8 text-sm md:text-base font-medium">海外に興味があれば大丈夫です。</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 🔟 CTA -->
-        <section id="cta" class="w-full px-5 py-24 text-center fade-in bg-slate-900 text-white relative overflow-hidden">
-            <div class="absolute inset-0 z-0 opacity-20" style="background-image: radial-gradient(#4F46E5 1px, transparent 1px); background-size: 40px 40px;"></div>
-            
-            <div class="max-w-2xl mx-auto relative z-10">
-                <h2 class="text-4xl md:text-5xl font-black mb-6 tracking-tighter font-serif">世界とつながる。</h2>
-                <p class="text-lg text-slate-300 font-medium mb-12">
-                    海外に挑戦したいなら<br>
-                    まずはコミュニティに参加してください。
-                </p>
-
-                <div class="text-3xl mb-6 animate-bounce">👇</div>
-
-                <div class="flex flex-col sm:flex-row gap-4 max-w-sm md:max-w-md mx-auto justify-center">
-                    <a href="https://lin.ee/NoG21ay" target="_blank" rel="noopener noreferrer" class="flex-1 inline-flex w-full bg-brand-line text-white font-bold text-lg py-5 px-8 rounded-full shadow-lg shadow-green-900/50 hover:bg-green-500 transition transform hover:-translate-y-1 items-center justify-center gap-2">
-                        <svg viewBox="0 0 24 24" class="w-6 h-6" fill="currentColor"><path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.036 9.608.391.084.922.258 1.057.592.122.303.079.778.039 1.085l-.171 1.027c-.053.303-.242 1.186 1.039.647 1.281-.54 6.911-4.069 9.428-6.967 1.739-1.907 2.572-3.843 2.572-5.992z"/></svg>
-                        コミュニティに参加する
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="bg-slate-950 text-white text-center py-12">
-            <div class="flex flex-col items-center gap-6">
-                <div class="font-en font-extrabold text-2xl tracking-widest text-white opacity-90">
-                    WAHONNECT<span class="text-brand-accent">.</span>
-                </div>
-                
-                <a href="https://www.instagram.com/waho_nnect/" target="_blank" rel="noopener noreferrer" class="text-slate-500 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
-                    <svg viewBox="0 0 24 24" class="w-5 h-5" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                    Instagram
-                </a>
-                
-                <p class="text-[10px] text-slate-600 uppercase tracking-widest mt-4">© 2024 WAHONNECT. All rights reserved.</p>
-            </div>
-        </footer>
-
-    </main>
-
-    <!-- スマホ用 固定CTAボタン (画面下部) -->
-    <div class="fixed bottom-0 left-0 w-full p-4 bg-gradient-to-t from-slate-50 via-slate-50 to-transparent z-50 md:hidden pb-6">
-        <a href="https://lin.ee/NoG21ay" target="_blank" rel="noopener noreferrer" class="flex w-full bg-brand-line text-white font-bold text-lg py-4 rounded-full shadow-[0_10px_20px_rgba(6,199,85,0.25)] items-center justify-center gap-2 relative overflow-hidden group">
-            <svg viewBox="0 0 24 24" class="w-6 h-6 relative z-10" fill="currentColor"><path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.036 9.608.391.084.922.258 1.057.592.122.303.079.778.039 1.085l-.171 1.027c-.053.303-.242 1.186 1.039.647 1.281-.54 6.911-4.069 9.428-6.967 1.739-1.907 2.572-3.843 2.572-5.992z"/></svg>
-            <span class="relative z-10">LINEで参加する</span>
-            <div class="absolute inset-0 h-full w-full scale-0 rounded-full transition-all duration-300 ease-out group-hover:scale-100 group-hover:bg-green-500 z-0"></div>
-        </a>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-text en">WORLD</div>
+  <div class="hero-grid"></div>
+  <div class="hero-accent"></div>
+  <div class="hero-content reveal">
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      <span class="en">Overseas Challenge Community</span>
     </div>
+    <h1 class="en">経験者と<br>挑戦者を<br><em>つなぐ。</em></h1>
+    <p class="hero-sub">
+      ワーホリ・語学留学・海外留学を終えた人も、<br>
+      これから行く人も。同じ熱量の仲間と出会える場所。
+    </p>
+    <!-- type tags -->
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;">
+      <span style="background:rgba(245,200,66,0.15);border:1px solid rgba(245,200,66,0.3);color:var(--gold);font-size:11px;font-weight:700;padding:5px 12px;border-radius:100px;letter-spacing:0.06em;">ワーキングホリデー</span>
+      <span style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);font-size:11px;font-weight:700;padding:5px 12px;border-radius:100px;letter-spacing:0.06em;">語学留学</span>
+      <span style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);font-size:11px;font-weight:700;padding:5px 12px;border-radius:100px;letter-spacing:0.06em;">海外留学</span>
+      <span style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);font-size:11px;font-weight:700;padding:5px 12px;border-radius:100px;letter-spacing:0.06em;">海外生活</span>
+    </div>
+    <div class="path-cards">
+      <a href="#experienced" class="path-card experienced">
+        <div class="path-card-icon">✈️</div>
+        <div class="path-card-text">
+          <strong>経験者の方</strong>
+          <small>経験をシェアして繋がる</small>
+        </div>
+        <div class="path-arrow">→</div>
+      </a>
+      <a href="#challenger" class="path-card challenger">
+        <div class="path-card-icon">🌏</div>
+        <div class="path-card-text">
+          <strong>これから行く方</strong>
+          <small>経験者に直接聞ける</small>
+        </div>
+        <div class="path-arrow">→</div>
+      </a>
+    </div>
+  </div>
+</section>
 
-    <!-- フェードインアニメーション用スクリプト -->
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, {
-                threshold: 0.1
-            });
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <span class="stat-num en">120+</span>
+      <span class="stat-label">Members</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num en">2〜4</span>
+      <span class="stat-label">Events / Month</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num en">Free</span>
+      <span class="stat-label">参加無料</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num en">3</span>
+      <span class="stat-label">Tokyo / Osaka / Online</span>
+    </div>
+  </div>
+</div>
 
-            document.querySelectorAll('.fade-in').forEach(element => {
-                observer.observe(element);
-            });
-        });
-    </script>
+<!-- BRIDGE CONCEPT -->
+<section class="bridge reveal">
+  <span class="section-label en">The Concept</span>
+  <h2 class="section-title">経験が<br>つながりになる。</h2>
+  <p class="section-sub" style="max-width:320px;margin:12px auto 0;">
+    ワーホリ・語学留学・海外留学は終わっても、繋がりは終わらない。<br>
+    経験者も挑戦者も、ここから先の人生が広がる。
+  </p>
+  <div class="bridge-arrow">
+    <div class="bridge-side left">
+      留学・ワーホリ<br>経験者
+    </div>
+    <div class="bridge-connect">⇄</div>
+    <div class="bridge-side right">
+      挑戦する<br>社会人
+    </div>
+  </div>
+  <p style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.8;">
+    経験を渡す。仲間を見つける。<br>
+    人生の次のフェーズへ、一緒に。
+  </p>
+</section>
+
+<section class="for-exp reveal" id="experienced">
+  <span class="section-label">For Experience</span>
+  <h2 class="section-title">経験者だからこそ<br>得られるもの</h2>
+  <p class="section-sub">ワーホリ・語学留学・海外留学を終えた後も、その経験は価値を持ち続ける。</p>
+  <div class="benefit-list">
+    <div class="benefit-item">
+      <span class="benefit-num">01</span>
+      <div class="benefit-body">
+        <strong>同じ経験者と深く繋がれる</strong>
+        <p>あの体験を共有できる仲間と、帰国後も関係が続く。ワーホリ・留学経験者同士だからこそ話せる本音の交流ができる。</p>
+      </div>
+    </div>
+    <div class="benefit-item">
+      <span class="benefit-num">02</span>
+      <div class="benefit-body">
+        <strong>経験がコミュニティの財産になる</strong>
+        <p>あなたのリアルな体験談が、次の挑戦者の背中を押す。語学留学・ワーホリ・海外生活、どんな経験も誰かの役に立つ。</p>
+      </div>
+    </div>
+    <div class="benefit-item">
+      <span class="benefit-num">03</span>
+      <div class="benefit-body">
+        <strong>海外志向のネットワークが広がる</strong>
+        <p>留学・ワーホリを経験した仲間だけでなく、次の一歩を踏み出そうとしている優秀な社会人とも出会える。</p>
+      </div>
+    </div>
+    <div class="benefit-item">
+      <span class="benefit-num">04</span>
+      <div class="benefit-body">
+        <strong>帰国後のキャリアも一緒に考えられる</strong>
+        <p>同じような海外経験を持つ仲間と、帰国後のキャリアや人生の次のフェーズについて話し合える。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOR CHALLENGERS -->
+<section class="for-chal reveal" id="challenger">
+  <span class="section-label">For Challengers</span>
+  <h2 class="section-title">これから行く人が<br>できること</h2>
+  <p class="section-sub">ワーホリ・語学留学・海外留学、どれでも。踏み出す前にリアルな情報と仲間を手に入れよう。</p>
+
+  <!-- 対象タグ -->
+  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px;">
+    <span style="background:#EEF2FF;color:#3A4FE0;font-size:11px;font-weight:700;padding:5px 12px;border-radius:100px;letter-spacing:0.06em;">ワーキングホリデー</span>
+    <span style="background:#F0FDF4;color:#166534;font-size:11px;font-weight:700;padding:5px 12px;border-radius:100px;letter-spacing:0.06em;">語学留学</span>
+    <span style="background:#FFF7ED;color:#9A3412;font-size:11px;font-weight:700;padding:5px 12px;border-radius:100px;letter-spacing:0.06em;">海外留学</span>
+    <span style="background:#FDF4FF;color:#7E22CE;font-size:11px;font-weight:700;padding:5px 12px;border-radius:100px;letter-spacing:0.06em;">海外生活</span>
+  </div>
+
+  <div class="benefit-list">
+    <div class="benefit-item">
+      <span class="benefit-num">01</span>
+      <div class="benefit-body">
+        <strong>経験者に直接聞ける</strong>
+        <p>ネットには載っていないリアルな情報を、ワーホリ・語学留学・海外留学の経験者から直接聞ける。ビザ・生活・現地の仕事まで何でも。</p>
+      </div>
+    </div>
+    <div class="benefit-item">
+      <span class="benefit-num">02</span>
+      <div class="benefit-body">
+        <strong>行く前から仲間ができる</strong>
+        <p>同じ国・同じ時期に行く人と今から友達になれる。現地でもコミュニティが続くから、一人じゃない。</p>
+      </div>
+    </div>
+    <div class="benefit-item">
+      <span class="benefit-num">03</span>
+      <div class="benefit-body">
+        <strong>社会人目線の情報が手に入る</strong>
+        <p>学生とは違う、社会人ならではの海外挑戦のリアル。仕事・貯金・帰国後のキャリアまで、先輩社会人に聞ける。</p>
+      </div>
+    </div>
+    <div class="benefit-item">
+      <span class="benefit-num">04</span>
+      <div class="benefit-body">
+        <strong>不安が仲間と話すことで消える</strong>
+        <p>海外挑戦の不安は、経験者や同じ気持ちの仲間と話すことが一番の解決策。ここにはその環境がある。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="events reveal">
+  <span class="section-label en">Events</span>
+  <h2 class="section-title">リアルで会える<br>交流イベント</h2>
+  <p class="section-sub">月2〜4回、東京・大阪・オンラインで開催中。</p>
+  <div class="event-cards">
+    <div class="event-card">
+      <div class="event-icon blue">🤝</div>
+      <div>
+        <div class="event-title">海外挑戦社会人 交流会</div>
+        <div class="event-desc">ワーホリ・留学経験者と挑戦者が集まる交流会。東京・大阪で定期開催。</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="event-icon amber">🗣️</div>
+      <div>
+        <div class="event-title">ワーホリ・留学 経験者トーク</div>
+        <div class="event-desc">ワーホリ・語学留学・海外留学の経験者が本音で語る。質問し放題の場。</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="event-icon green">💻</div>
+      <div>
+        <div class="event-title">オンライン 作業会・相談会</div>
+        <div class="event-desc">全国どこからでも参加OK。海外志向の仲間と一緒に過ごす時間。</div>
+      </div>
+    </div>
+    <div class="event-card">
+      <div class="event-icon pink">📖</div>
+      <div>
+        <div class="event-title">留学・ワーホリ 体験談シェア会</div>
+        <div class="event-desc">語学留学・海外留学・ワーホリ、帰国後のキャリアも含めたリアルな体験談。</div>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:11px;color:var(--text-muted);margin-top:20px;line-height:1.8;">
+    ※ イベントは任意参加です<br>
+    ※ 内容によって参加費が発生する場合があります
+  </p>
+</section>
+
+<!-- FOUNDER -->
+<section class="founder reveal">
+  <span class="section-label">Founder Story</span>
+  <div class="founder-card">
+    <p class="founder-quote">
+      「海外に挑戦する人が、<br>もっと繋がれる場所を<br>作りたかった。」
+    </p>
+    <p class="founder-body">
+      私自身、海外に挑戦したとき、同じ挑戦をする仲間が周りにいませんでした。<br><br>
+      ワーホリでも、語学留学でも、海外留学でも——一人より、仲間がいた方が絶対に豊かな経験になる。<br><br>
+      経験者は経験をシェアすることで次のステージへ。挑戦者は経験者から学ぶことで一歩を踏み出せる。その循環を作りたい。それが WAHONNECT です。
+    </p>
+    <div class="founder-sig en">WAHONNECT Founder</div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq reveal">
+  <span class="section-label en">FAQ</span>
+  <h2 class="section-title">よくある質問</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q"><span class="faq-q-badge">Q</span>誰でも参加できますか？</div>
+      <p class="faq-a">海外に興味のある社会人であれば参加できます。ワーホリ・語学留学・海外留学、どの形でも歓迎です。</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><span class="faq-q-badge">Q</span>参加は無料ですか？</div>
+      <p class="faq-a">コミュニティへの参加は無料です。イベントによって参加費が発生する場合があります。</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><span class="faq-q-badge">Q</span>ワーホリではなく語学留学・海外留学でも参加できますか？</div>
+      <p class="faq-a">もちろんです。ワーホリに限らず、語学留学・大学留学・海外生活など、海外への挑戦であれば何でも対象です。</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><span class="faq-q-badge">Q</span>イベントは必ず参加しないといけませんか？</div>
+      <p class="faq-a">すべて任意参加です。参加したいイベントだけ参加する形で問題ありません。</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><span class="faq-q-badge">Q</span>まだ行くか決めていないけど参加できますか？</div>
+      <p class="faq-a">大丈夫です。「いつか海外に行ってみたい」という段階でも歓迎です。情報収集や仲間づくりから始めましょう。</p>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><span class="faq-q-badge">Q</span>留学・ワーホリ経験者として参加したいです。</div>
+      <p class="faq-a">大歓迎です！経験者同士の交流や、これから行く人へのシェアの場を定期的に作っています。</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section reveal" id="cta">
+  <span class="section-label en">Join Us</span>
+  <h2 class="section-title">一歩、踏み出そう。</h2>
+  <p class="section-sub">経験者も、挑戦者も。<br>まずはコミュニティに入るところから。</p>
+  <a href="https://lin.ee/NoG21ay" target="_blank" class="cta-btn-line">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.036 9.608.391.084.922.258 1.057.592.122.303.079.778.039 1.085l-.171 1.027c-.053.303-.242 1.186 1.039.647 1.281-.54 6.911-4.069 9.428-6.967 1.739-1.907 2.572-3.843 2.572-5.992z"/></svg>
+    LINEでコミュニティに参加する
+  </a>
+  <p class="cta-note">参加無料 · いつでも退会OK</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo en" style="color:#fff;">WAHONNECT<span style="color:#3A4FE0;">.</span></div>
+  <a href="https://www.instagram.com/waho_nnect/" target="_blank" class="footer-ig">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    @waho_nnect
+  </a>
+  <p class="footer-copy">© 2024 WAHONNECT. All rights reserved.</p>
+</footer>
+
+<!-- STICKY CTA -->
+<div class="sticky-cta">
+  <a href="https://lin.ee/NoG21ay" target="_blank">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.036 9.608.391.084.922.258 1.057.592.122.303.079.778.039 1.085l-.171 1.027c-.053.303-.242 1.186 1.039.647 1.281-.54 6.911-4.069 9.428-6.967 1.739-1.907 2.572-3.843 2.572-5.992z"/></svg>
+    LINEで参加する（無料）
+  </a>
+</div>
+
+<script>
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
 </body>
 </html>
