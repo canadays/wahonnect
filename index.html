@@ -59,7 +59,7 @@
     background: var(--navy);
     display: flex; flex-direction: column; justify-content: flex-end;
     position: relative; overflow: hidden;
-    padding-top: 56px;
+    padding-top: 92px;
   }
 
   .hero-bg-text {
@@ -529,6 +529,28 @@
     letter-spacing: 0.12em; text-transform: uppercase;
   }
 
+  /* ── STICKY TAGLINE ── */
+  .sticky-tagline {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    width: 100%;
+    z-index: 90;
+    background: var(--navy);
+    text-align: center;
+    padding: 8px 16px;
+    pointer-events: none;
+  }
+  .sticky-tagline span {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
   /* ── STICKY CTA (mobile) ── */
   .sticky-cta {
     position: fixed; bottom: 0; left: 0; width: 100%; z-index: 99;
@@ -619,8 +641,8 @@
 <div class="stats-bar">
   <div class="stats-inner">
     <div class="stat-item">
-      <span class="stat-num en">120+</span>
-      <span class="stat-label">メンバー数</span>
+      <span class="stat-num" style="font-size:18px;letter-spacing:-0.01em;line-height:1.3;">続々と<br>参加中</span>
+      <span class="stat-label">メンバー募集中</span>
     </div>
     <div class="stat-item">
       <span class="stat-num en">2〜4</span>
@@ -642,7 +664,6 @@
   <span class="section-label en">The Concept</span>
   <h2 class="section-title">経験が<br>つながりになる。</h2>
   <p class="section-sub" style="max-width:320px;margin:12px auto 0;">
-    ワーホリ・語学留学・海外留学は終わっても、繋がりは終わらない。<br>
     経験者も挑戦者も、ここから先の人生が広がる。
   </p>
   <div class="bridge-arrow">
@@ -792,7 +813,19 @@
     <p class="founder-body">
       私自身、海外に挑戦したとき、同じ挑戦をする仲間が周りにいませんでした。<br><br>
       ワーホリでも、語学留学でも、海外留学でも——一人より、仲間がいた方が絶対に豊かな経験になる。<br><br>
-      経験者は経験をシェアすることで次のステージへ。挑戦者は経験者から学ぶことで一歩を踏み出せる。その循環を作りたい。それが WAHONNECT です。
+      そしてもう一つ、作りたかった場所がある。
+    </p>
+
+    <div style="border-left:2px solid var(--gold);padding:16px 20px;margin:20px 0;background:rgba(245,200,66,0.06);border-radius:0 12px 12px 0;">
+      <p style="font-size:15px;font-weight:700;color:#fff;line-height:1.7;letter-spacing:-0.01em;">
+        「日本に帰ってきたとき、<br>また集まれる場所。」
+      </p>
+    </div>
+
+    <p class="founder-body">
+      海外で過ごした時間は、帰国した後も自分の中に生き続ける。でも日本に戻ると、あの感覚を分かち合える人がなかなかいない。<br><br>
+      同じ空気を吸った仲間と、帰国後もまた笑顔で再会できる場所。海外での経験が、日本での繋がりへと続いていく場所。<br><br>
+      それも、WAHONNECT が目指すものです。
     </p>
     <div class="founder-sig en">WAHONNECT Founder</div>
   </div>
