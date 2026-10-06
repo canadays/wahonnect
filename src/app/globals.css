@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0f1b40;
+  --color-sub: #4a5578;
+  --color-mist: #eef2fa;
+  --color-rule: #d5ddf0;
+  --color-signal: #ffc72c;
+  --color-line: #06c755;
+
+  --font-sans: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic Medium", "Yu Gothic", "Noto Sans JP", Meiryo, system-ui, sans-serif;
+  --font-display: "Shippori Mincho", "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif;
+  --font-code: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background: #fff;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  line-height: 1.9;
+  font-feature-settings: "palt";
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  word-break: auto-phrase;
+  text-wrap: balance;
+  line-height: 1.35;
+}
+
+p {
+  line-break: strict;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-signal);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.barcode {
+  background: repeating-linear-gradient(
+    90deg,
+    currentColor 0 2px, transparent 2px 4px,
+    currentColor 4px 5px, transparent 5px 9px,
+    currentColor 9px 12px, transparent 12px 14px,
+    currentColor 14px 15px, transparent 15px 17px
+  );
+}
+
+/* ページ読み込み時に一度だけ、搭乗券が発券される */
+@keyframes issue {
+  from { opacity: 0; transform: translateY(28px) rotate(0deg); }
+  to { opacity: 1; transform: translateY(0) rotate(var(--tilt, 0deg)); }
+}
+.pass-issue {
+  transform: rotate(var(--tilt, 0deg));
+  animation: issue 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s both;
+}
+
+details > summary { list-style: none; cursor: pointer; }
+details > summary::-webkit-details-marker { display: none; }
+details[open] .faq-mark { transform: rotate(45deg); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .pass-issue { animation: none; }
+  * { transition: none !important; }
+}
