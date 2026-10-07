@@ -66,9 +66,23 @@ export default function AdminClient() {
       }
     } catch (e) {
       const code = (e as { code?: string }).code ?? "";
-      if (!code.includes("popup-closed") && !code.includes("cancelled-popup")) {
-        setNotice({ kind: "error", text: "ログインできませんでした。もう一度お試しください。" });
+      if (code.includes("popup-closed") || code.includes("cancelled-popup")) return;
+      const host = window.location.hostname;
+      const reasons: Record<string, string> = {
+        "auth/unauthorized-domain": `このドメイン（${host}）がFirebaseで許可されていません。Firebaseコンソール → Authentication → 設定 → 承認済みドメイン に「${host}」を追加してください。`,
+        "auth/operation-not-allowed": "FirebaseでGoogleログインが有効になっていません。Firebaseコンソール → Authentication → ログイン方法 で Google を有効にしてください。",
+        "auth/popup-blocked": "ブラウザがログイン画面（ポップアップ）をブロックしました。ポップアップを許可して、もう一度お試しください。",
+        "auth/invalid-api-key": "FirebaseのAPIキーが正しくありません。Vercelの NEXT_PUBLIC_FIREBASE_API_KEY を確認してください。",
+        "auth/network-request-failed": "通信できませんでした。ネットワークを確認して、もう一度お試しください。",
+      };
+      if (code.includes("requests-from-referer")) {
+        setNotice({
+          kind: "error",
+          text: `FirebaseのAPIキーが、このサイト（${window.location.origin}）からの利用を許可していません。Google Cloudコンソール → APIとサービス → 認証情報 → ブラウザ用のAPIキー → 「ウェブサイトの制限」に ${window.location.origin}/* を追加してください。`,
+        });
+        return;
       }
+      setNotice({ kind: "error", text: `${reasons[code] ?? "ログインできませんでした。"}（エラーコード: ${code || "不明"}）` });
     }
   }
 

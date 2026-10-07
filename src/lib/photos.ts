@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { cacheLife, cacheTag } from "next/cache";
+import { site } from "@/data/site";
 import { PHOTOS_COLLECTION, PHOTOS_TAG, firebaseConfig, type Slot } from "./photoConfig";
 
 /*
@@ -24,6 +25,8 @@ async function fromFirestore(): Promise<Doc[]> {
       const res = await fetch(
         `${base}/projects/${projectId}/databases/(default)/documents/${PHOTOS_COLLECTION}?pageSize=300&key=${apiKey}` +
           (pageToken ? `&pageToken=${encodeURIComponent(pageToken)}` : ""),
+        // APIキーに「ウェブサイトの制限」がかかっていても通るよう、このサイトからのアクセスだと伝える
+        { headers: { Referer: `${site.url}/` } },
       );
       if (!res.ok) throw new Error(`Firestore ${res.status}`);
       const json = await res.json();

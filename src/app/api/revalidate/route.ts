@@ -1,4 +1,5 @@
 import { revalidateTag } from "next/cache";
+import { site } from "@/data/site";
 import { PHOTOS_TAG, firebaseConfig, isAdminEmail } from "@/lib/photoConfig";
 
 // adminページで写真を変更した直後に呼ばれ、公開ページのキャッシュを更新する。
@@ -12,7 +13,7 @@ export async function POST(request: Request) {
   try {
     const res = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${firebaseConfig.apiKey}`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Referer: `${site.url}/` },
       body: JSON.stringify({ idToken }),
     });
     user = res.ok ? ((await res.json()).users?.[0] ?? null) : null;
