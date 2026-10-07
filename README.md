@@ -49,6 +49,37 @@ Canadays と同じ Firebase プロジェクト・Cloudinary アカウントを�
 - Unsigned プリセットは仕組み上、プリセット名を知っている人なら誰でもアップロードできます（サイトには載りません）。気になる場合は Cloudinary 側でファイルサイズや形式の制限をかけてください。
 - `public/photos/` に画像ファイルを置く方法も予備として残っています（管理ページの写真が無い枠だけ使われます）。
 
+## フォトラリー（`/rally`）
+
+イベント当日に参加者がスマホで開く写真集めゲームです。チーム名を入れ、ミッションごとに写真を撮ってアップロードすると得点が入ります。
+
+- **参加者の画面**: `/rally`（検索には載りません。URLやQRコードで共有してください）
+- **管理ページ**: `/rally/admin`。パスワードを知っている人は誰でも入れます。ミッションの追加・編集・並べ替え・表示/非表示と、チームごとの得点・写真の確認ができます。保存した内容は参加者の画面にすぐ反映されます。
+
+### 準備（最初の一度だけ）
+
+1. Vercelの環境変数に次の4つを **Secret** で登録して再デプロイする。
+   - `RALLY_ADMIN_PASSWORD`: 管理ページのパスワード（推測されにくいものに）
+   - `FIREBASE_PROJECT_ID` / `FIREBASE_CLIENT_EMAIL` / `FIREBASE_PRIVATE_KEY`: サーバーがFirestoreに書き込むための鍵
+2. Firebaseコンソール → Authentication → ログイン方法で「匿名」を有効にする（参加者の記録用）。
+3. Firestoreのルールに次を追加する。
+
+   ```
+   match /wahonnect_rally_missions/{id} {
+     allow read: if true;
+     allow write: if false;   // 書き込みはサーバー（管理ページ）だけ
+   }
+   match /wahonnect_rally_teams/{teamId} {
+     allow read, create, update: if request.auth != null && request.auth.uid == teamId;
+   }
+   ```
+
+### 知っておくこと
+
+- パスワードはサーバー側で確かめています。ブラウザには鍵を置いていないので、パスワードを知らない人はミッションを書き換えられません。
+- 参加者の記録はそのスマホのブラウザに結びつきます。別のスマホや別のブラウザで開くと、新しいチームとして始まります。
+- チームを「消す」と一覧から消えますが、写真のファイルはCloudinaryに残ります。
+
 ## デプロイ（Vercel）
 
 既存の Vercel プロジェクトにつないでいる GitHub リポジトリへ、このフォルダの中身を push すれば置き換わります。独自ドメインにする場合は環境変数 `NEXT_PUBLIC_SITE_URL` に URL を設定してください。
